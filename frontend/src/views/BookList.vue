@@ -38,7 +38,7 @@
           <el-input v-model="newBook.author" placeholder="请输入作者" />
         </el-form-item>
         <el-form-item label="数量">
-          <el-input-number v-model="newBook.availableCount" :min="1" />
+          <el-input-number v-model="newBook.stock" :min="1" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -58,11 +58,11 @@ export default {
   data() {
     return {
       books: [],
-      showAddForm: false,
+      showAddDialog: false,
       newBook: {
         title: '',
         author: '',
-        availableCount: 1
+        stock: 1
       }
     }
   },
@@ -131,8 +131,9 @@ export default {
       }
       try {
         await axios.post('/books', this.newBook)
+        console.log(this.newBook)
         this.showAddForm = false
-        this.newBook = { title: '', author: '', availableCount: 1 }
+        this.newBook = { title: '', author: '', stock: 1 }
         await this.fetchBooks()
       } catch (err) {
         alert('添加失败')

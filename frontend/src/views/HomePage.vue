@@ -18,7 +18,6 @@
 
     <main class="main-content">
       <h2>欢迎来到图书管理系统</h2>
-      
       <BookList/>
     </main>
   </div>
