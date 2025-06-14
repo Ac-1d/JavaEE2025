@@ -1,24 +1,35 @@
 <template>
   <div class="login-page">
-    <h2>用户登录</h2>
-    <form @submit.prevent="handleLogin">
-      <div>
-        <label for="username">用户名：</label>
-        <input id="username" v-model="username" required />
-      </div>
-      <div>
-        <label for="password">密码：</label>
-        <input id="password" type="password" v-model="password" required />
-      </div>
-      <button type="submit">登录</button>
-    </form>
-    <p v-if="error" class="error">{{ error }}</p>
+    <el-card class="login-card" shadow="hover">
+      <h2 class="title">用户登录</h2>
+      <el-form>
+        <el-form-item label="用户名">
+          <el-input v-model="username" placeholder="请输入用户名" clearable />
+        </el-form-item>
+
+        <el-form-item label="密码">
+          <el-input v-model="password" placeholder="请输入密码" show-password />
+        </el-form-item>
+
+        <el-form>
+          <!-- 表单项 -->
+          <el-form-item>
+            <el-button type="primary" @click="handleLogin" class="login-button" block>
+              登录
+            </el-button>
+          </el-form-item>
+        </el-form>
+      </el-form>
+
+      <el-alert v-if="error" :title="error" type="error" show-icon class="error-alert" center closable
+        @close="error = ''" />
+    </el-card>
   </div>
 </template>
 
 <script>
 import axios from '@/utils/request'
-import {userStore} from '@/store/user'
+import { userStore } from '@/store/user'
 
 export default {
   name: 'LoginPage',
@@ -54,34 +65,28 @@ export default {
 
 <style scoped>
 .login-page {
-  max-width: 400px;
-  margin: 3rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f7fa;
 }
 
-input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.2rem;
+.login-card {
+  width: 400px;
+  padding: 2rem;
+}
+
+.title {
+  text-align: center;
   margin-bottom: 1rem;
 }
 
-button {
+.login-button {
   width: 100%;
-  padding: 0.5rem;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-.error {
-  color: red;
+.error-alert {
   margin-top: 1rem;
-  text-align: center;
 }
 </style>
