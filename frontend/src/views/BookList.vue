@@ -1,51 +1,51 @@
 <template>
-  <div class="book-list">
-    <h2>图书列表</h2>
-    <!-- 新增图书按钮 -->
-    <button
-      @click="showAddForm = true"
-      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4"
-    >
-      新增图书
-    </button>
+  <div class="book-list p-6">
+    <el-page-header content="图书管理" class="mb-4" />
 
-    <!-- 新增图书表单 -->
-    <div v-if="showAddForm" class="border p-4 mb-4 rounded bg-gray-100">
-      <h3 class="text-lg font-semibold mb-2">添加新图书</h3>
-      <input v-model="newBook.title" placeholder="书名" class="border px-2 py-1 mb-2 w-full" />
-      <input v-model="newBook.author" placeholder="作者" class="border px-2 py-1 mb-2 w-full" />
-      <input
-        v-model.number="newBook.availableCount"
-        type="number"
-        placeholder="数量"
-        class="border px-2 py-1 mb-2 w-full"
-      />
-      <div>
-        <button
-          @click="addBook"
-          class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mr-2"
-        >
-          提交
-        </button>
-        <button
-          @click="showAddForm = false"
-          class="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
-        >
-          取消
-        </button>
-      </div>
-    </div>
-    <div v-if="books.length === 0">暂无图书信息</div>
-    <ul>
-      <li v-for="book in books" :key="book.id" class="book-item">
-        <div>
-          <strong>{{ book.title }}</strong> - {{ book.author }}    剩余：{{ book.stock }}本
-        </div>
-        <button @click="borrowBook(book.id)">借阅</button>
-        <button @click="returnBook(book.id)">归还</button>
-        <button @click="deleteBook(book.id)">删除</button>
-      </li>
-    </ul>
+    <!-- 新增图书按钮 -->
+    <el-button type="success" @click="showAddDialog = true" class="mb-4">➕ 添加图书</el-button>
+
+    <!-- 图书为空时的提示 -->
+    <el-empty description="暂无图书信息" v-if="books.length === 0" />
+
+    <!-- 图书列表 -->
+    <el-row :gutter="20" v-else>
+      <el-col :span="12" v-for="book in books" :key="book.id" class="mb-4">
+        <el-card shadow="hover">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-bold">{{ book.title }}</h3>
+              <p>作者：{{ book.author }}</p>
+              <p>剩余：{{ book.stock }} 本</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <el-button type="primary" size="small" @click="borrowBook(book.id)">借阅</el-button>
+              <el-button type="warning" size="small" @click="returnBook(book.id)">归还</el-button>
+              <el-button type="danger" size="small" @click="deleteBook(book.id)">删除</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <!-- 添加图书 Dialog -->
+    <el-dialog v-model="showAddDialog" title="添加图书" width="500px">
+      <el-form :model="newBook" label-width="80px">
+        <el-form-item label="书名">
+          <el-input v-model="newBook.title" placeholder="请输入书名" />
+        </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="newBook.author" placeholder="请输入作者" />
+        </el-form-item>
+        <el-form-item label="数量">
+          <el-input-number v-model="newBook.availableCount" :min="1" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showAddDialog = false">取消</el-button>
+        <el-button type="primary" @click="addBook">提交</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
