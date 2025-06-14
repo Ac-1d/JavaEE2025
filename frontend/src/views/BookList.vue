@@ -3,7 +3,7 @@
     <el-page-header content="图书管理" class="mb-4" />
 
     <!-- 新增图书按钮 -->
-    <el-button type="success" @click="showAddDialog = true" class="mb-4">➕ 添加图书</el-button>
+    <el-button type="success" @click="showAddDialog = true" class="mb-4">添加图书</el-button>
 
     <!-- 图书为空时的提示 -->
     <el-empty description="暂无图书信息" v-if="books.length === 0" />
