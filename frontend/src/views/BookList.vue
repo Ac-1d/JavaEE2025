@@ -3,7 +3,7 @@
     <el-page-header content="图书管理" class="mb-4" />
 
     <!-- 新增图书按钮 -->
-    <el-button type="success" @click="showAddDialog = true" class="mb-4">添加图书</el-button>
+    <el-button v-if="userStore ? userStore.role === 'admin' : false" type="success" @click="showAddDialog = true" class="mb-4">添加图书</el-button>
 
     <!-- 图书为空时的提示 -->
     <el-empty description="暂无图书信息" v-if="books.length === 0" />
@@ -19,9 +19,9 @@
               <p>剩余：{{ book.stock }} 本</p>
             </div>
             <div class="flex flex-col gap-2">
-              <el-button type="primary" size="small" @click="borrowBook(book.id)">借阅</el-button>
-              <el-button type="warning" size="small" @click="returnBook(book.id)">归还</el-button>
-              <el-button type="danger" size="small" @click="deleteBook(book.id)">删除</el-button>
+              <el-button v-if="userStore ? userStore.isLoggedIn : false" type="primary" size="small" @click="borrowBook(book.id)">借阅</el-button>
+              <el-button v-if="userStore ? userStore.isLoggedIn : false" type="warning" size="small" @click="returnBook(book.id)">归还</el-button>
+              <el-button v-if="userStore ? userStore.role === 'admin' : false" type="danger" size="small" @click="deleteBook(book.id)">删除</el-button>
             </div>
           </div>
         </el-card>
@@ -66,6 +66,9 @@ export default {
       }
     }
   },
+  setup() {
+    return { userStore }
+  },
   created() {
     this.fetchBooks()
   },
@@ -84,7 +87,7 @@ export default {
       try {
         const res = await axios.post(`/borrow/borrow`, null, {
           params: {
-            userId: userStore.username, // 假设 username 是用户 ID
+            userId: userStore.userId, 
             bookId: bookId
           }
         })
@@ -103,7 +106,7 @@ export default {
       try {
         const res = await axios.post(`/borrow/return`, null, {
           params: {
-            userId: userStore.username, // 假设 username 是用户 ID
+            userId: userStore.userId, // 假设 username 是用户 ID
             bookId: bookId
           }
         })

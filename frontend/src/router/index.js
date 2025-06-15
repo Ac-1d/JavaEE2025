@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 import BookList from '@/views/BookList.vue'
+import BorrowRecord from '@/views/BorrowRecord.vue'
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
   { path: '/books',
     name: 'BookList',
     component: BookList
+  },
+  {
+    path: '/records',
+    name: 'BorrowRecords',
+    component: BorrowRecord
   }
 ]
 

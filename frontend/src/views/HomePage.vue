@@ -10,7 +10,8 @@
           <router-link to="/register" class="nav-button">注册</router-link>
         </template>
         <template v-else>
-          <span class="welcome-text">欢迎，{{ userStore.username }}</span>
+          <span class="welcome-text">欢迎，{{ userStore.username }} </span>
+          <el-button @click="$router.push('/records')">📖 借阅记录</el-button>
           <button @click="logout" class="nav-button logout-button">退出</button>
         </template>
       </div>

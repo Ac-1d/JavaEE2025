@@ -49,7 +49,7 @@ export default {
         })
 
         if (res.status === 200) {
-          userStore.setUser(res.data.username)
+          userStore.setUser(res.data.username, res.data.id, res.data.role)
           this.$router.push('/')
         } else {
           this.error = res.data.message || '登录失败'
