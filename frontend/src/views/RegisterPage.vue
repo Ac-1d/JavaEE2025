@@ -1,23 +1,29 @@
 <template>
   <div class="register-page">
-    <h2>用户注册</h2>
-    <form @submit.prevent="handleRegister">
-      <div>
-        <label for="username">用户名：</label>
-        <input id="username" v-model="username" required />
-      </div>
-      <div>
-        <label for="password">密码：</label>
-        <input id="password" type="password" v-model="password" required />
-      </div>
-      <div>
-        <label for="confirmPassword">确认密码：</label>
-        <input id="confirmPassword" type="password" v-model="confirmPassword" required />
-      </div>
-      <button type="submit">注册</button>
-    </form>
-    <p v-if="error" class="error">{{ error }}</p>
-    <p v-if="success" class="success">{{ success }}</p>
+    <el-card class="register-card">
+      <h2 style="text-align:center;">用户注册</h2>
+
+      <el-form @submit.prevent="handleRegister" label-width="80px">
+        <el-form-item label="用户名">
+          <el-input v-model="username" placeholder="请输入用户名" />
+        </el-form-item>
+
+        <el-form-item label="密码">
+          <el-input v-model="password" type="password" placeholder="请输入密码" show-password />
+        </el-form-item>
+
+        <el-form-item label="确认密码">
+          <el-input v-model="confirmPassword" type="password" placeholder="请再次输入密码" show-password />
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="handleRegister" style="width: 100%;">注册</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-alert v-if="error" :title="error" type="error" show-icon class="alert" />
+      <el-alert v-if="success" :title="success" type="success" show-icon class="alert" />
+    </el-card>
   </div>
 </template>
 
@@ -78,36 +84,18 @@ export default {
 
 <style scoped>
 .register-page {
-  max-width: 400px;
-  margin: 3rem auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.register-card {
+  width: 400px;
   padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 12px;
 }
-input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.2rem;
-  margin-bottom: 1rem;
-}
-button {
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.error {
-  color: red;
+
+.alert {
   margin-top: 1rem;
-  text-align: center;
-}
-.success {
-  color: green;
-  margin-top: 1rem;
-  text-align: center;
 }
 </style>
